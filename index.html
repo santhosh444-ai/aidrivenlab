@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Quick reference for the AI-driven lab exam: Python programs that generate code with Ollama (qwen2.5-coder:7b) and test it automatically.">
+<title>AI-Driven Lab Exam – Ollama Codes (Programs 1 to 7)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f6f8;--panel:#fff;--ink:#17202b;--muted:#5b6675;--line:#d9dee5;--accent:#0f766e;--accent-ink:#fff;--code:#0f172a;--code-ink:#e2e8f0;--ok:#15803d}
+:root[data-theme="dark"]{--bg:#0d1117;--panel:#151b23;--ink:#e6edf3;--muted:#98a4b3;--line:#27313d;--accent:#2dd4bf;--accent-ink:#06201c;--code:#070b10;--code-ink:#dbe4ee;--ok:#4ade80}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1117;--panel:#151b23;--ink:#e6edf3;--muted:#98a4b3;--line:#27313d;--accent:#2dd4bf;--accent-ink:#06201c;--code:#070b10;--code-ink:#dbe4ee;--ok:#4ade80}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+header{padding:44px 0 20px}
+h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.15;margin:0 0 8px;font-weight:600;letter-spacing:-.02em}
+.sub{color:var(--muted);margin:0 0 18px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.bar input{flex:1 1 220px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit}
+.btn,.bar a{padding:9px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit;font-size:.92rem;cursor:pointer;text-decoration:none}
+.btn:hover,.bar a:hover,nav a:hover{border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 20px}
+nav a{white-space:nowrap;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none;font-size:.9rem;background:var(--panel)}
+section{margin:36px 0}
+.tag{display:inline-block;font:500 .8rem "IBM Plex Mono",monospace;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:1px 8px}
+h2{font-size:1.5rem;margin:10px 0 6px;font-weight:600}
+.desc{color:var(--muted);margin:0 0 14px;max-width:70ch}
+.box{background:var(--code);border-radius:10px;overflow:hidden}
+.box-head{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.1);color:#94a3b8;font:.82rem "IBM Plex Mono",monospace}
+.copy{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:4px 12px;font:500 .82rem "IBM Plex Sans",sans-serif;cursor:pointer}
+pre{margin:0;padding:14px;overflow-x:auto;color:var(--code-ink);font:.86rem/1.55 "IBM Plex Mono",monospace}
+.tests{margin-top:12px;font:.86rem "IBM Plex Mono",monospace;color:var(--muted)}
+.tests b{color:var(--ok);font-weight:500}
+.empty{display:none;padding:30px 0;color:var(--muted)}
+footer{padding:30px 0 60px;color:var(--muted);font-size:.9rem}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--accent-ink);padding:8px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}#toast{transition:none}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>AI-Driven Lab Exam: Programs 1 – 7</h1>
+  <p class="sub">Python programs that ask a local LLM (Ollama) to write a function, then test it. Programs 6 and 7 also score the result out of 100.</p>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Search by number or name, e.g. 3, prime or sort" aria-label="Search programs">
+    <a href="https://github.com/YOUR-USERNAME/ailabexam">GitHub</a>
+    <button class="btn" id="theme" type="button">Switch theme</button>
+    <button class="btn" id="raw" type="button">Download raw TXT</button>
+  </div>
+</header>
+<nav><div class="wrap" id="nav"></div></nav>
+<main class="wrap">
+  <section id="setup">
+    <span class="tag">Setup</span>
+    <h2>Commands before the exam</h2>
+    <p class="desc">Run these once, then run each program with Python.</p>
+    <div class="box"><div class="box-head"><span>terminal</span><button class="copy" data-copy="setup">Copy</button></div>
+<pre id="setup-code">pip install ollama
+ollama pull qwen2.5-coder:7b
+ollama pull codegemma:2b
+ollama serve
+python program1.py</pre></div>
+  </section>
+  <div id="list"></div>
+  <p class="empty" id="empty">No matching program found. Try a number from 1 to 7, or a word like factorial, vowels, prime, palindrome, insertion or selection.</p>
+</main>
+<footer class="wrap">Programs 1 to 5: send a prompt, clean the reply, run it with exec(), then print PASS or FAIL for four tests. Programs 6 and 7: a discriminator scores syntax, function tests, algorithm check and similarity, and accepts at 80 or more.</footer>
+<div id="toast" role="status">Copied to clipboard</div>
+
+<script>
+function build(p){
+  return `import ollama
+
+prompt = """
+${p.prompt}
+Return only Python code.
+"""
+
+response = ollama.generate(
+    model="qwen2.5-coder:7b",
+    prompt=prompt
+)
+
+code = response["response"].strip()
+code = code.replace("\`\`\`python", "").replace("\`\`\`", "").strip()
+
+print("Generated Code:")
+print(code)
+
+namespace = {}
+exec(code, namespace)
+
+${p.fn} = namespace["${p.fn}"]
+
+tests = ${p.tests}
+
+print("\\nTesting Results:")
+
+for ${p.v}, expected in tests:
+    result = ${p.fn}(${p.v})
+    print(${p.v}, "Expected:", expected, "Actual:", result)
+
+    if result == expected:
+        print("PASS")
+    else:
+        print("FAIL")`;
+}
+
+function buildSort(p){
+  const ticks = "`".repeat(3);
+  return String.raw`import ollama
+import ast
+import re
+
+real_code_dataset = [
+"""${p.ref}"""
+]
+
+def generate_code():
+    prompt = """Generate ONLY a Python function named ${p.fn}(arr).
+Requirements: Implement ${p.name} manually. Sort ascending. Do NOT use sort() or sorted(). Return ONLY code, no markdown."""
+    response = ollama.chat(model="codegemma:2b", messages=[{"role": "user", "content": prompt}])
+    raw_code = response["message"]["content"]
+    code = raw_code.replace("python", "").replace("@@@", "")
+    start = code.find("def ${p.fn}")
+    return code[start:].strip() if start != -1 else code.strip()
+
+def check_syntax(code):
+    try:
+        ast.parse(code)
+        return True
+    except:
+        return False
+
+def test_${p.fn}(code):
+    ns = {}
+    try:
+        exec(code, ns)
+        if "${p.fn}" not in ns: return False
+        tests = [([5, 3, 8], [3, 5, 8]), ([1], [1]), ([], [])]
+        for data, exp in tests:
+            if ns["${p.fn}"](data.copy()) != exp: return False
+        return True
+    except:
+        return False
+
+def check_algorithm(code):
+    code_lower = code.lower()
+    if ".sort(" in code_lower or "sorted(" in code_lower: return False
+    return "for" in code_lower and "def ${p.fn}" in code_lower
+
+def calculate_similarity(generated_code):
+    gen_tokens = set(re.findall(r"[a-zA-Z_]+", generated_code.lower()))
+    if not gen_tokens: return 0
+    best = max((len(gen_tokens.intersection(set(re.findall(r"[a-zA-Z_]+", r.lower())))) / 
+                len(gen_tokens.union(set(re.findall(r"[a-zA-Z_]+", r.lower()))))) for r in real_code_dataset)
+    return round(best * 100, 2)
+
+def discriminator(code):
+    syn, func, alg = check_syntax(code), test_${p.fn}(code), check_algorithm(code)
+    sim = calculate_similarity(code) if syn else 0
+    score = (20 if syn else 0) + (40 if func else 0) + (20 if alg else 0) + (sim * 0.20)
+    return {"syntax": syn, "functional": func, "algorithm": alg, "similarity": sim, "score": round(score, 2)}
+
+generated = generate_code()
+print(f"Generated Code:\n{generated}\n")
+res = discriminator(generated)
+print(f"Syntax: {res['syntax']}, Functional: {res['functional']}, Algorithm: {res['algorithm']}, Sim: {res['similarity']}%")
+print(f"Final Score: {res['score']}/100")
+print("RESULT: ACCEPTED" if res['score'] >= 80 else "RESULT: REJECTED")`.split("@@@").join(ticks);
+}
+
+const programs = [
+  {n:1, fn:"factorial", title:"Factorial of a Number", tags:"factorial number loop recursion", v:"n",
+   desc:"Asks the model for factorial(n), then checks 5, 4, 3 and 0.",
+   prompt:"Write a Python function named factorial\nto calculate the factorial of a number.",
+   tests:"[(5, 120), (4, 24), (3, 6), (0, 1)]"},
+  {n:2, fn:"sum_even", title:"Sum of Even Numbers in an Array", tags:"sum even array list", v:"arr",
+   desc:"Asks the model for sum_even(arr), which adds only the even numbers in a list.",
+   prompt:"Write a Python function named sum_even\nto find the sum of all even numbers\nin a given array.",
+   tests:"[\n    ([1, 2, 3, 4], 6),\n    ([2, 4, 6, 8], 20),\n    ([1, 3, 5], 0),\n    ([10, 15, 20], 30)\n]"},
+  {n:3, fn:"is_palindrome", title:"Palindrome Number Check", tags:"palindrome number reverse", v:"n",
+   desc:"Asks the model for is_palindrome(n), which returns True when a number reads the same both ways.",
+   prompt:"Write a Python function named is_palindrome\nto check whether a number is palindrome.",
+   tests:"[(121, True), (123, False), (1331, True), (10, False)]"},
+  {n:4, fn:"count_vowels", title:"Count Vowels in a String", tags:"vowels count string", v:"s",
+   desc:"Asks the model for count_vowels(s), which counts a, e, i, o and u in a string.",
+   prompt:"Write a Python function named count_vowels\nto count vowels in a given string.",
+   tests:"[\n    (\"hello\", 2),\n    (\"education\", 5),\n    (\"python\", 1),\n    (\"sky\", 0)\n]"},
+  {n:5, fn:"is_prime", title:"Prime Number Check", tags:"prime number check", v:"n",
+   desc:"Asks the model for is_prime(n), then checks 7, 4, 13 and 1.",
+   prompt:"Write a Python function named is_prime\nto check whether a number is prime.",
+   tests:"[(7, True), (4, False), (13, True), (1, False)]"},
+  {n:6, fn:"insertion_sort", name:"Insertion Sort", sort:true, title:"Insertion Sort with Scoring", tags:"insertion sort codegemma discriminator score",
+   desc:"Asks codegemma:2b for insertion_sort(arr), then scores it out of 100 on syntax, function tests, algorithm check and similarity to a reference. Accepted at 80 or more.",
+   ref:"def insertion_sort(arr):\n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = i - 1\n        while j >= 0 and key < arr[j]:\n            arr[j + 1] = arr[j]\n            j -= 1\n        arr[j + 1] = key\n    return arr"},
+  {n:7, fn:"selection_sort", name:"Selection Sort", sort:true, title:"Selection Sort with Scoring", tags:"selection sort codegemma discriminator score",
+   desc:"Same scoring setup as Program 6, applied to selection_sort(arr).",
+   ref:"def selection_sort(arr):\n    for i in range(len(arr)):\n        min_idx = i\n        for j in range(i+1, len(arr)):\n            if arr[min_idx] > arr[j]:\n                min_idx = j\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    return arr"}
+];
+
+const list = document.getElementById("list"), nav = document.getElementById("nav");
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+programs.forEach(p => {
+  p.code = p.sort ? buildSort(p) : build(p);
+  const lines = p.code.split("\n").length;
+  nav.insertAdjacentHTML("beforeend", `<a href="#p${p.n}">${p.n} ${p.fn.replace("is_","").replace("_"," ")}</a>`);
+  const keys = (p.n + " program " + p.n + " " + p.title + " " + p.tags + " " + p.fn).toLowerCase();
+  list.insertAdjacentHTML("beforeend", `
+  <section id="p${p.n}" data-s="${keys}">
+    <span class="tag">Program ${p.n}</span>
+    <h2>${p.title}</h2>
+    <p class="desc">${p.desc}</p>
+    <div class="box"><div class="box-head"><span>program${p.n}.py • ${lines} lines</span><button class="copy" data-copy="${p.n}">Copy code</button></div>
+    <pre>${esc(p.code)}</pre></div>
+  </section>`);
+});
+document.querySelectorAll("section[data-s]").forEach(s => s.dataset.s = s.dataset.s.toLowerCase());
+
+const toast = document.getElementById("toast");
+function say(){ toast.classList.add("on"); setTimeout(() => toast.classList.remove("on"), 1400); }
+function copy(text){
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(say);
+  else { const t = document.createElement("textarea"); t.value = text; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove(); say(); }
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]"); if (!b) return;
+  const k = b.dataset.copy;
+  copy(k === "setup" ? document.getElementById("setup-code").textContent : programs.find(p => String(p.n) === k).code);
+});
+
+document.getElementById("q").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase(); let shown = 0;
+  document.querySelectorAll("section[data-s]").forEach(s => {
+    const hit = !q || s.dataset.s.includes(q); s.style.display = hit ? "" : "none"; if (hit) shown++;
+  });
+  document.getElementById("setup").style.display = q ? "none" : "";
+  document.getElementById("empty").style.display = shown ? "none" : "block";
+});
+
+document.getElementById("raw").addEventListener("click", () => {
+  const txt = programs.map(p => "# Program " + p.n + ": " + p.title + "\n\n" + p.code).join("\n\n\n" + "#".repeat(60) + "\n\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([txt], {type:"text/plain"}));
+  a.download = "ai_lab_exam_programs_1_to_7.txt"; a.click(); URL.revokeObjectURL(a.href);
+});
+
+const root = document.documentElement;
+try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch(e){}
+document.getElementById("theme").addEventListener("click", () => {
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme:dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", root.dataset.theme); } catch(e){}
+});
+</script>
+</body>
+</html>
